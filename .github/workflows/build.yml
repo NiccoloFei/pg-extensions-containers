@@ -1,0 +1,42 @@
+name: Container Images Builder
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'pgvector/**'
+      - 'postgis/**'
+
+permissions: read-all
+
+jobs:
+  build:
+    name: Build 
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        name: ["pgvector", "postgis"]
+    steps:
+      - name: Log in to the GitHub Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/bake-action@v6
+        env:
+          environment: ${{ (github.ref == 'refs/heads/main') && 'production' || 'testing' }}
+          registry: ghcr.io/${{ github.repository_owner }}
+          extension: ${{ matrix.name }}
+        with:
+          push: true
