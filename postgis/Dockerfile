@@ -10,7 +10,7 @@ USER 0
 RUN set -eux; \
 	ldconfig -p | awk '{print $NF}' | grep '^/' | sort | uniq > /tmp/source.out && \
 	mkdir -p /opt/extension && \
-    apt-get update && \
+	apt-get update && \
 	apt-get install -y --no-install-recommends \
 		"postgresql-server-dev-${PG_MAJOR}" \
 		clang-16 \
