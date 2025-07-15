@@ -14,6 +14,7 @@ PostgreSQL versions:
 
 Operating system:
 - Debian bookworm
+- Debian bullseye
 
 # Structure of the project
 

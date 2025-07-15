@@ -28,7 +28,8 @@ target "default" {
       "18beta1"
     ]
     distro = [
-        "bookworm"
+        "bookworm",
+        "bullseye"
     ]
   }
   platforms = [

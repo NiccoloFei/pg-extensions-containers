@@ -13,10 +13,7 @@ RUN set -eux; \
 	apt-get update && \
 	apt-get install -y --no-install-recommends \
 		"postgresql-server-dev-${PG_MAJOR}" \
-		clang-16 \
-		llvm-16-dev \
 		git \
-		autoconf \
 		automake \
 		bison \
 		build-essential \
@@ -24,7 +21,6 @@ RUN set -eux; \
 		cmake \
 		docbook-xml \
 		docbook5-xml \
-		g++ \
 		libboost-all-dev \
 		libcunit1-dev \
 		libcurl4-gnutls-dev \
@@ -38,19 +34,15 @@ RUN set -eux; \
 		libtool \
 		libxml2-dev \
 		libxml2-utils \
-		make \
 		pkg-config \
 		protobuf-c-compiler \
 		xsltproc \
 		libsfcgal-dev \
-		libproj25 \
 		libproj-dev \
 		libpq5 \
 		libgdal-dev \
-		libgdal32 \
 		libgeos-dev \
 		libgeos-c1v5 \
-		libc6 \
 		libsfcgal1 \
 	&& \
 	git clone -b "${EXT_VERSION}" --single-branch https://github.com/postgis/postgis.git /tmp/postgis && \

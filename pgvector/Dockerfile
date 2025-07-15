@@ -10,7 +10,7 @@ USER 0
 RUN set -eux; \
 	mkdir -p /opt/extension && \
 	apt-get update && \
-	apt-get install -y --no-install-recommends git build-essential clang-16 llvm-16-dev "postgresql-server-dev-${PG_MAJOR}" && \
+	apt-get install -y --no-install-recommends git build-essential "postgresql-server-dev-${PG_MAJOR}" && \
 	git clone -b "${EXT_VERSION}" --single-branch https://github.com/pgvector/pgvector.git /tmp/pgvector && \
 	cd /tmp/pgvector && \
 	make clean && \

@@ -6,6 +6,8 @@ on:
     branches:
       - main
     paths:
+      - '.github/workflows/build.yml'
+      - 'docker-bake.hcl'
       - 'pgvector/**'
       - 'postgis/**'
 
@@ -19,6 +21,7 @@ jobs:
       contents: read
       packages: write
     strategy:
+      fail-fast: false
       matrix:
         name: ["pgvector", "postgis"]
     steps:
