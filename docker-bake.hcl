@@ -34,6 +34,7 @@ target "default" {
   }
   platforms = [
     "linux/amd64",
+    "linux/arm64"
   ]
   dockerfile = "Dockerfile"
   name = "${extension}-${pgVersion}-${extension_version}-${distro}"

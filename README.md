@@ -16,6 +16,10 @@ Operating system:
 - Debian bookworm
 - Debian bullseye
 
+Architectures:
+- amd64
+- arm64
+
 # Structure of the project
 
 TODO
