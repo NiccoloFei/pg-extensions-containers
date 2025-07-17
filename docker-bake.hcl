@@ -18,6 +18,10 @@ variable "extension_version" {
   default = "master"
 }
 
+variable "platform_suffix" {
+  default = ""
+}
+
 fullname = ( environment == "testing") ? "${registry}/${extension}-testing" : "${registry}/${extension}"
 now = timestamp()
 
@@ -39,7 +43,7 @@ target "default" {
   dockerfile = "Dockerfile"
   name = "${extension}-${pgVersion}-${extension_version}-${distro}"
   tags = [
-    "${getImageName(fullname)}:${pgVersion}-${extension_version}-${distro}",
+    "${getImageName(fullname)}:${pgVersion}-${extension_version}-${distro}${platform_suffix}",
   ]
   context = "${extension}/"
   args = {
