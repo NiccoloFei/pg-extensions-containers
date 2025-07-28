@@ -29,7 +29,7 @@ now = timestamp()
 target "default" {
   matrix = {
     pgVersion = [
-      "18beta1"
+      "18beta2"
     ]
     distro = [
         "bookworm",
