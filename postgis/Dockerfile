@@ -54,12 +54,12 @@ RUN set -eux; \
 	make install datadir=/opt/extension/share/ pkglibdir=/opt/extension/lib/ && \
 	ldd /opt/extension/lib/*.so | awk '{print $3}' | grep '^/' | sort | uniq > /tmp/deps.out && \
 	grep -Fvx -f /tmp/source.out /tmp/deps.out > /tmp/libraries.out && \
-	mkdir -p /opt/extension/system && \
-	cat /tmp/libraries.out | xargs -I{} cp {} /opt/extension/system
+	mkdir -p /opt/extension/syslib && \
+	cat /tmp/libraries.out | xargs -I{} cp {} /opt/extension/syslib
 
 FROM scratch
 
 COPY --from=builder /opt/extension/bin/ /bin/
 COPY --from=builder /opt/extension/lib/ /lib/
 COPY --from=builder /opt/extension/share/ /share/
-COPY --from=builder /opt/extension/system/ /system/
+COPY --from=builder /opt/extension/syslib/ /syslib/
