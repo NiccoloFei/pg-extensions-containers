@@ -27,7 +27,6 @@ RUN set -eux; \
 		libgmp-dev \
 		libjson-c-dev \
 		libmpfr-dev \
-		libpcre3-dev \
 		libprotobuf-c-dev \
 		libsqlite3-dev \
 		libtiff-dev \
@@ -37,13 +36,11 @@ RUN set -eux; \
 		pkg-config \
 		protobuf-c-compiler \
 		xsltproc \
-		libsfcgal-dev \
 		libproj-dev \
 		libpq5 \
 		libgdal-dev \
 		libgeos-dev \
-		libgeos-c1v5 \
-		libsfcgal1 \
+		libsfcgal-dev \
 	&& \
 	git clone -b "${EXT_VERSION}" --single-branch https://github.com/postgis/postgis.git /tmp/postgis && \
 	cd /tmp/postgis && \
