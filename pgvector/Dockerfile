@@ -1,4 +1,4 @@
-ARG BASE=ghcr.io/cloudnative-pg/postgresql:18rc1-minimal-bookworm
+ARG BASE=ghcr.io/cloudnative-pg/postgresql:18rc1-minimal-trixie
 
 FROM $BASE AS builder
 

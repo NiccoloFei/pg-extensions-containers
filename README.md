@@ -13,6 +13,7 @@ PostgreSQL versions:
 - 18rc1
 
 Operating system:
+- Debian trixie
 - Debian bookworm
 - Debian bullseye
 
