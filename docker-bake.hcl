@@ -29,9 +29,10 @@ now = timestamp()
 target "default" {
   matrix = {
     pgVersion = [
-      "18beta3"
+      "18rc1"
     ]
     distro = [
+        "trixie",
         "bookworm",
         "bullseye"
     ]
@@ -55,7 +56,7 @@ target "default" {
 
 function getMajor {
     params = [ version ]
-    result = index(split("beta", version),0)
+    result = regex("^([0-9]+)", version)[0]
 }
 
 function getImageName {
