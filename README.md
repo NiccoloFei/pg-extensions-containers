@@ -10,12 +10,11 @@ Kubernetes 1.33.
 Each extension is being built against the following targets.
 
 PostgreSQL versions:
-- 18rc1
+- 18
 
 Operating system:
 - Debian trixie
 - Debian bookworm
-- Debian bullseye
 
 Architectures:
 - amd64
