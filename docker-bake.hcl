@@ -16,11 +16,7 @@ variable "extension_name" {
 
 variable "extension_versions" {
   type = list(string)
-  default = ["0.1"]
-}
-
-variable "platform_suffix" {
-  default = ""
+  default = ["placeholder"]
 }
 
 fullname = ( environment == "testing") ? "${registry}/${extension_name}-testing" : "${registry}/${extension_name}"
@@ -34,8 +30,7 @@ target "default" {
     ]
     distro = [
         "trixie",
-        "bookworm",
-        "bullseye"
+        "bookworm"
     ]
     ext_version = extension_versions
   }
@@ -46,7 +41,7 @@ target "default" {
   dockerfile = "Dockerfile"
   name = "${extension_name}-${pgVersion}-${replace(ext_version, ".", "-")}-${distro}"
   tags = [
-    "${getImageName(fullname)}:${pgVersion}-${ext_version}-${distro}${platform_suffix}",
+    "${getImageName(fullname)}:${pgVersion}-${ext_version}-${distro}",
   ]
   context = "${extension_name}/"
   args = {

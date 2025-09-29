@@ -15,7 +15,6 @@ PostgreSQL versions:
 Operating system:
 - Debian trixie
 - Debian bookworm
-- Debian bullseye
 
 Architectures:
 - amd64

@@ -12,6 +12,7 @@ RUN set -eux; \
 	apt-get install -y --no-install-recommends "postgresql-${PG_MAJOR}-pgvector=${EXT_VERSION}*"
 
 FROM scratch
+ARG PG_MAJOR
 
 # Lib
 COPY --from=builder /usr/lib/postgresql/${PG_MAJOR}/lib/vector* /lib/

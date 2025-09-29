@@ -22,6 +22,7 @@ RUN set -eux; \
 	cat /tmp/libraries.out | xargs -I{} cp {} /opt/syslib
 
 FROM scratch
+ARG PG_MAJOR
 
 # Lib
 COPY --from=builder \
