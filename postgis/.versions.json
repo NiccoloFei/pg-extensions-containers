@@ -1,0 +1,4 @@
+{
+  "name": "postgis",
+  "versions": ["3.6.0"]
+}

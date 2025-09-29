@@ -1,23 +1,21 @@
-ARG BASE=ghcr.io/cloudnative-pg/postgresql:18rc1-minimal-trixie
+ARG BASE=ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie
 
 FROM $BASE AS builder
 
-ARG PG_MAJOR=18
-ARG EXT_VERSION=master
+ARG PG_MAJOR
+ARG EXT_VERSION
 
 USER 0
 
 RUN set -eux; \
-	mkdir -p /opt/extension && \
 	apt-get update && \
-	apt-get install -y --no-install-recommends git build-essential "postgresql-server-dev-${PG_MAJOR}" && \
-	git clone -b "${EXT_VERSION}" --single-branch https://github.com/pgvector/pgvector.git /tmp/pgvector && \
-	cd /tmp/pgvector && \
-	make clean && \
-	make OPTFLAGS="" && \
-	make install datadir=/opt/extension/share/ pkglibdir=/opt/extension/lib/
+	apt-get install -y --no-install-recommends "postgresql-${PG_MAJOR}-pgvector=${EXT_VERSION}*"
 
 FROM scratch
 
-COPY --from=builder /opt/extension/lib/ /lib/
-COPY --from=builder /opt/extension/share/ /share/
+# Lib
+COPY --from=builder /usr/lib/postgresql/${PG_MAJOR}/lib/vector* /lib/
+COPY --from=builder /usr/lib/postgresql/${PG_MAJOR}/lib/bitcode/ /lib/bitcode/
+
+# Share
+COPY --from=builder /usr/share/postgresql/${PG_MAJOR}/extension/vector* /share/extension/

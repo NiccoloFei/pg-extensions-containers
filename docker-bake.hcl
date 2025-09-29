@@ -10,46 +10,48 @@ variable "registry" {
   default = "localhost:5000"
 }
 
-variable "extension" {
-  default = "pgvector"
+variable "extension_name" {
+  default = "placeholder"
 }
 
-variable "extension_version" {
-  default = "master"
+variable "extension_versions" {
+  type = list(string)
+  default = ["0.1"]
 }
 
 variable "platform_suffix" {
   default = ""
 }
 
-fullname = ( environment == "testing") ? "${registry}/${extension}-testing" : "${registry}/${extension}"
+fullname = ( environment == "testing") ? "${registry}/${extension_name}-testing" : "${registry}/${extension_name}"
 now = timestamp()
 
 
 target "default" {
   matrix = {
     pgVersion = [
-      "18rc1"
+      "18"
     ]
     distro = [
         "trixie",
         "bookworm",
         "bullseye"
     ]
+    ext_version = extension_versions
   }
   platforms = [
     "linux/amd64",
     "linux/arm64"
   ]
   dockerfile = "Dockerfile"
-  name = "${extension}-${pgVersion}-${extension_version}-${distro}"
+  name = "${extension_name}-${pgVersion}-${replace(ext_version, ".", "-")}-${distro}"
   tags = [
-    "${getImageName(fullname)}:${pgVersion}-${extension_version}-${distro}${platform_suffix}",
+    "${getImageName(fullname)}:${pgVersion}-${ext_version}-${distro}${platform_suffix}",
   ]
-  context = "${extension}/"
+  context = "${extension_name}/"
   args = {
     PG_MAJOR = "${getMajor(pgVersion)}"
-    EXT_VERSION = "${extension_version}"
+    EXT_VERSION = "${ext_version}"
     BASE = "ghcr.io/cloudnative-pg/postgresql:${pgVersion}-minimal-${distro}"
   }
 }

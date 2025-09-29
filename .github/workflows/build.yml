@@ -53,12 +53,19 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Setup env
+        id: env
+        run: |
+          EXT_VERSIONS=$(jq -r '.versions | join(",")' "${{ matrix.name }}/.versions.json")
+          echo "ext_versions=${EXT_VERSIONS}" >> $GITHUB_OUTPUT
+
       - name: Build and push
         uses: docker/bake-action@v6
         env:
           environment: ${{ (github.ref == 'refs/heads/main') && 'production' || 'testing' }}
           registry: ghcr.io/${{ github.repository_owner }}
-          extension: ${{ matrix.name }}
+          extension_name: ${{ matrix.name }}
+          extension_versions: ${{ steps.env.outputs.ext_versions }}
           platform_suffix: "-${{ matrix.arch }}"
         with:
           push: true
@@ -90,10 +97,17 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Setup env
+        id: env
+        run: |
+          EXT_VERSIONS=$(jq -r '.versions | join(",")' "${{ matrix.name }}/.versions.json")
+          echo "ext_versions=${EXT_VERSIONS}" >> $GITHUB_OUTPUT
+
       - name: Create and push multiarch manifests
         env:
           environment: ${{ (github.ref == 'refs/heads/main') && 'production' || 'testing' }}
           registry: ghcr.io/${{ github.repository_owner }}
-          extension: ${{ matrix.name }}
+          extension_name: ${{ matrix.name }}
+          extension_versions: ${{ steps.env.outputs.ext_versions }}
         run: |
           bash .github/merge-images.sh
