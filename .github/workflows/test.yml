@@ -1,0 +1,29 @@
+name: Test
+
+on:
+  push:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: 'bash -Eeuo pipefail -x {0}'
+
+permissions: read-all
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v5
+      - name: Security checks
+        uses: cloudnative-pg/postgres-containers/.github/actions/security-scans@dev/security-scan-action
+        with:
+          image: ghcr.io/cloudnative-pg/postgresql:18-minimal-trixie
+          registry_user: ${{ github.actor }}
+          registry_token: ${{ secrets.GITHUB_TOKEN }}
+          snyk_token: ${{ secrets.SNYK_TOKEN }}
+          dockerfile: ./pgvector/Dockerfile
